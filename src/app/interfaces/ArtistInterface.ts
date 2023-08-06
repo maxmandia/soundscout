@@ -16,7 +16,7 @@ interface Followers {
 export interface ArtistInterface {
   external_urls: ExternalUrls
   followers: Followers
-  genres: string[]
+  genres: string[] | null
   href: string
   id: string
   images: Image[]

@@ -88,7 +88,7 @@ function Navbar() {
                 )}
                 <div>
                   <h4 className="text-[17px] font-bold">{artist.name}</h4>
-                  <h6>{artist.genres[0]}</h6>
+                  <h6>{artist?.genres[0] ?? 'unknown genre'}</h6>
                 </div>
               </div>
               <button className="rounded-[4px] bg-slate-600 px-5 py-1 text-[14px] font-medium">

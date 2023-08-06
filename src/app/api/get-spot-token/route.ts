@@ -24,10 +24,10 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const response = await fetch(
-      'https://accounts.spotify.com/api/token',
-      requestOptions
-    )
+    const response = await fetch('https://accounts.spotify.com/api/token', {
+      ...requestOptions,
+      cache: 'force-cache' // or 'no-store'
+    })
     const result = await response.json()
     return NextResponse.json(result)
   } catch (error) {
