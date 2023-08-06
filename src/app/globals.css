@@ -7,3 +7,7 @@
   --input-bg: #252525;
   --input-txt: #676767;
 }
+
+* {
+  color: white;
+}

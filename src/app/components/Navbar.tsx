@@ -19,12 +19,13 @@ function Navbar() {
       }
       try {
         let resp = await fetch(
-          `http://localhost:3001/search-artists?artist=${search}`
+          `http://localhost:3000/api/search-artists?artist=${search}`
         )
+
         let data = await resp.json()
+        console.log(data)
         setArtists(data.artists.items)
         setShowModal(true)
-        console.log(data)
       } catch (error) {
         console.log(error)
       }
@@ -74,6 +75,8 @@ function Navbar() {
               <div className="flex items-center gap-3">
                 {artist.images[0]?.url ? (
                   <Image
+                    width={50}
+                    height={50}
                     className="h-[50px] w-[50px] rounded-[100px] bg-slate-600"
                     src={artist.images[0]?.url}
                     alt="artist image"
