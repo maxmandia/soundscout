@@ -1,15 +1,16 @@
 'use client'
 import { useState } from 'react'
-import { PersonIcon } from '@radix-ui/react-icons'
 import Image from 'next/image'
 import { ArtistInterface } from '../interfaces/ArtistInterface'
 import debounce from 'lodash.debounce'
-// import { useUser } from "@clerk/clerk-react";
+import { UserButton, useUser } from '@clerk/nextjs'
 
 function Navbar() {
   const [artists, setArtists] = useState<ArtistInterface[] | null>(null)
   const [showModal, setShowModal] = useState<boolean>(false)
-  //   const { user } = useUser();
+  const { user } = useUser()
+
+  console.log(user)
 
   function handleSearch() {
     return async function (search: string) {
@@ -61,9 +62,7 @@ function Navbar() {
           type="text"
           onChange={(e) => debounceSearch(e.target.value)}
         />
-        <div className="rounded-[6px] border-[.5px] border-input-txt bg-input-bg p-2">
-          <PersonIcon width={30} height={30} color="#676767" />
-        </div>
+        {user && <UserButton afterSignOutUrl="/sign-in" />}
       </nav>
       {artists && showModal && (
         <div className="mx-4 flex max-h-[50vh] flex-col gap-8 overflow-scroll rounded-[6px] border-[.5px] border-input-txt bg-input-bg py-4">
