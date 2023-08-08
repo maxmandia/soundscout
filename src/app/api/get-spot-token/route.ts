@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
   try {
     const response = await fetch('https://accounts.spotify.com/api/token', {
       ...requestOptions,
-      cache: 'force-cache' // or 'no-store'
+      cache: 'no-store' // or 'no-store'
     })
     const result = await response.json()
     return NextResponse.json(result)
