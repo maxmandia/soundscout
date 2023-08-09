@@ -10,8 +10,6 @@ function Navbar() {
   const [showModal, setShowModal] = useState<boolean>(false)
   const { user } = useUser()
 
-  console.log(user)
-
   function handleSearch() {
     return async function (search: string) {
       if (search === '') {
@@ -33,21 +31,24 @@ function Navbar() {
     }
   }
 
-  //   async function followArtist() {
-  //     if (!user) return console.log("no user");
+  async function followArtist() {
+    if (!user) return console.log('no user')
 
-  //     const user_id = user.id;
+    const user_id = user.id
 
-  //     try {
-  //       let resp = await fetch(`http://localhost:3001/follow-artist?artist=`, {
-  //         method: "PUT",
-  //       });
-  //       let data = await resp.json();
-  //       console.log(data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
+    try {
+      let resp = await fetch(
+        `http://localhost:3001/api/follow-artist?artist=`,
+        {
+          method: 'PUT'
+        }
+      )
+      let data = await resp.json()
+      console.log(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   let debounceSearch = debounce(handleSearch(), 500)
 

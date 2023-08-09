@@ -9,8 +9,25 @@ datasource db {
 }
 
 model User {
-  id             Int   @id @default(autoincrement())
+  id             String   @id @default(uuid())
   email          String   @unique
   first_name     String?
   last_name      String?
+  follows       User_Artist[]
+}
+
+model Artist { 
+   id            String   @id @default(uuid())
+   artist_name   String
+   external_url  String
+   image_url     String?
+   followers     User_Artist[]
+}
+
+model User_Artist  {
+  user_id        String
+  artist_id      String
+  user           User     @relation(fields: [user_id], references: [id])
+  artist         Artist   @relation(fields: [artist_id], references: [id])
+  @@id([user_id, artist_id])
 }
