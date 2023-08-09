@@ -35,12 +35,13 @@ export async function POST(req: NextRequest) {
 
   const eventType: EventType = evt.type
   if (eventType === 'user.created') {
-    const { first_name, last_name, email_addresses } = evt.data
+    const { first_name, last_name, email_addresses, id } = evt.data
     const email_address = email_addresses[0].email_address
 
     try {
       await prisma.user.create({
         data: {
+          id: id as string,
           email: email_address,
           first_name: first_name as string,
           last_name: last_name as string

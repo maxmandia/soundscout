@@ -31,18 +31,22 @@ function Navbar() {
     }
   }
 
-  async function followArtist() {
-    if (!user) return console.log('no user')
+  async function followArtist(artist: ArtistInterface) {
+    if (!user || !artist) {
+      console.log('no user or artist')
+      return
+    }
 
     const user_id = user.id
 
     try {
-      let resp = await fetch(
-        `http://localhost:3001/api/follow-artist?artist=`,
-        {
-          method: 'PUT'
-        }
-      )
+      let resp = await fetch(`http://localhost:3000/api/follow-artist`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ user_id, artist })
+      })
       let data = await resp.json()
       console.log(data)
     } catch (error) {
@@ -56,7 +60,7 @@ function Navbar() {
     <div>
       <nav className="flex items-center justify-between gap-3 px-4 py-8">
         <input
-          onBlur={() => setShowModal(false)}
+          // onBlur={() => setShowModal(false)}
           onFocus={() => setShowModal(true)}
           className="w-full rounded-[6px] border-[.5px] border-input-txt bg-input-bg pb-3 pl-2 pt-3 text-white"
           placeholder="Search for artists"
@@ -69,6 +73,7 @@ function Navbar() {
         <div className="mx-4 flex max-h-[50vh] flex-col gap-8 overflow-scroll rounded-[6px] border-[.5px] border-input-txt bg-input-bg py-4">
           {artists.map((artist) => (
             <div
+              onClick={() => followArtist(artist)}
               className="flex items-center justify-between px-3"
               key={artist.id}
             >

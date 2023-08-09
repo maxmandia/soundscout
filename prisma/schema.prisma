@@ -9,7 +9,7 @@ datasource db {
 }
 
 model User {
-  id             String   @id @default(uuid())
+  id             String   @id @unique
   email          String   @unique
   first_name     String?
   last_name      String?
@@ -17,10 +17,11 @@ model User {
 }
 
 model Artist { 
-   id            String   @id @default(uuid())
+   id            String  @id @unique
    artist_name   String
-   external_url  String
+   external_url  String?
    image_url     String?
+   genre         String? 
    followers     User_Artist[]
 }
 
