@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { headers } from 'next/headers'
 import { Webhook, WebhookRequiredHeaders } from 'svix'
 import { IncomingHttpHeaders } from 'http'
+import { prisma } from '../../../utils/prisma'
 
 type EventType = 'user.created' | 'user.updated' | '*'
 
@@ -28,14 +29,27 @@ export async function POST(req: NextRequest) {
       heads as IncomingHttpHeaders & WebhookRequiredHeaders
     ) as Event
   } catch (err) {
-    console.error((err as Error).message)
+    console.error('error from clerk', (err as Error).message)
     return NextResponse.json({}, { status: 400 })
   }
 
   const eventType: EventType = evt.type
-  if (eventType === 'user.created' || eventType === 'user.updated') {
+  if (eventType === 'user.created') {
     const { first_name, last_name, email_addresses } = evt.data
     const email_address = email_addresses[0].email_address
-    // Do something with the user
+
+    try {
+      await prisma.user.create({
+        data: {
+          email: email_address,
+          first_name: first_name as string,
+          last_name: last_name as string
+        }
+      })
+      return NextResponse.json({ message: 'success' })
+    } catch (error) {
+      console.log('error from db', error)
+      return NextResponse.error()
+    }
   }
 }
