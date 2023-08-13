@@ -5,25 +5,39 @@ import { ArtistInterface } from '../interfaces/ArtistInterface'
 import debounce from 'lodash.debounce'
 import { UserButton, useUser } from '@clerk/nextjs'
 
+interface SearchResults {
+  artists: {
+    items: ArtistInterface[]
+  }
+  userFollowing: {
+    artist_id: string
+    user_id: string
+    artist: {
+      id: string
+    }
+  }[]
+}
+
 function Navbar() {
-  const [artists, setArtists] = useState<ArtistInterface[] | null>(null)
+  const [searchResults, setSearchResults] = useState<SearchResults | null>(null)
   const [showModal, setShowModal] = useState<boolean>(false)
   const { user } = useUser()
 
   function handleSearch() {
     return async function (search: string) {
-      if (search === '') {
-        setArtists(null)
+      if (search === '' || !user) {
+        setSearchResults(null)
         return
       }
+
       try {
         let resp = await fetch(
-          `http://localhost:3000/api/search-artists?artist=${search}`
+          `http://localhost:3000/api/search-artists?artist=${search}&userId=${user.id}`
         )
 
         let data = await resp.json()
         console.log(data)
-        setArtists(data.artists.items)
+        setSearchResults(data)
         setShowModal(true)
       } catch (error) {
         console.log(error)
@@ -69,9 +83,9 @@ function Navbar() {
         />
         {user && <UserButton afterSignOutUrl="/sign-in" />}
       </nav>
-      {artists && showModal && (
+      {searchResults && showModal && (
         <div className="mx-4 flex max-h-[50vh] flex-col gap-8 overflow-scroll rounded-[6px] border-[.5px] border-input-txt bg-input-bg py-4">
-          {artists.map((artist) => (
+          {searchResults.artists.items.map((artist) => (
             <div
               onClick={() => followArtist(artist)}
               className="flex items-center justify-between px-3"
@@ -93,11 +107,13 @@ function Navbar() {
                 )}
                 <div>
                   <h4 className="text-[17px] font-bold">{artist.name}</h4>
-                  <h6>{artist?.genres[0] ?? 'unknown genre'}</h6>
+                  <h6>{artist?.genres?.[0] ?? 'unknown genre'}</h6>
                 </div>
               </div>
-              <button className="rounded-[4px] bg-slate-600 px-5 py-1 text-[14px] font-medium">
-                follow
+              <button className="w-[100px] rounded-[4px] bg-slate-600  px-5 py-1 text-[14px] font-medium">
+                {searchResults.userFollowing.map((followedArtist) =>
+                  followedArtist.artist_id === artist.id ? 'Unfollow' : 'Follow'
+                )}
               </button>
             </div>
           ))}
