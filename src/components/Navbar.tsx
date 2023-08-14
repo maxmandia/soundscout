@@ -45,30 +45,66 @@ function Navbar() {
     }
   }
 
-  async function followArtist(artist: ArtistInterface) {
+  async function followHandler(artist: ArtistInterface, follow: boolean) {
     if (!user || !artist) {
       console.log('no user or artist')
       return
     }
 
-    const user_id = user.id
+    if (follow) {
+      setSearchResults((prev) => {
+        if (!prev) {
+          return null
+        }
+        return {
+          ...prev,
+          userFollowing: [
+            ...prev.userFollowing,
+            {
+              artist_id: artist.id,
+              user_id: user.id,
+              artist: {
+                id: artist.id
+              }
+            }
+          ]
+        }
+      })
+    } else {
+      setSearchResults((prev) => {
+        if (!prev) {
+          return null
+        }
+        return {
+          ...prev,
+          userFollowing: prev.userFollowing.filter(
+            (followedArtist) => followedArtist.artist_id !== artist.id
+          )
+        }
+      })
+    }
 
     try {
-      let resp = await fetch(`http://localhost:3000/api/follow-artist`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ user_id, artist })
-      })
-      let data = await resp.json()
-      console.log(data)
+      const user_id = user.id
+      let resp = await fetch(
+        `http://localhost:3000/api/${follow ? 'follow' : 'unfollow'}-artist`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ user_id, artist })
+        }
+      )
+      let data: {
+        status: string
+      } = await resp.json()
     } catch (error) {
       console.log(error)
     }
   }
 
-  let debounceSearch = debounce(handleSearch(), 500)
+  let debounceSearch = debounce(handleSearch(), 200)
 
   return (
     <div>
@@ -87,7 +123,6 @@ function Navbar() {
         <div className="mx-4 flex max-h-[50vh] flex-col gap-8 overflow-scroll rounded-[6px] border-[.5px] border-input-txt bg-input-bg py-4">
           {searchResults.artists.items.map((artist) => (
             <div
-              onClick={() => followArtist(artist)}
               className="flex items-center justify-between px-3"
               key={artist.id}
             >
@@ -110,10 +145,26 @@ function Navbar() {
                   <h6>{artist?.genres?.[0] ?? 'unknown genre'}</h6>
                 </div>
               </div>
-              <button className="w-[100px] rounded-[4px] bg-slate-600  px-5 py-1 text-[14px] font-medium">
-                {searchResults.userFollowing.map((followedArtist) =>
-                  followedArtist.artist_id === artist.id ? 'Unfollow' : 'Follow'
-                )}
+              <button
+                onClick={() => {
+                  let exists = searchResults.userFollowing.some(
+                    (followedArtist) => followedArtist.artist_id === artist.id
+                  )
+                  if (exists) {
+                    followHandler(artist, false)
+                  } else {
+                    followHandler(artist, true)
+                  }
+                }}
+                className="w-[100px] rounded-[4px] bg-slate-600 px-5 py-1 text-[14px] font-medium"
+              >
+                {searchResults.userFollowing.length === 0
+                  ? 'Follow'
+                  : searchResults.userFollowing.some(
+                      (followedArtist) => followedArtist.artist_id === artist.id
+                    )
+                  ? 'Unfollow'
+                  : 'Follow'}
               </button>
             </div>
           ))}
