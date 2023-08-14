@@ -44,6 +44,12 @@ export async function PUT(req: NextRequest) {
           genre
         }
       })
+      await prisma.user_Artist.create({
+        data: {
+          user_id: user_id,
+          artist_id: artist_id
+        }
+      })
     }
 
     return NextResponse.json({ status: 'ok' })
