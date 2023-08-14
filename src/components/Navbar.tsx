@@ -99,6 +99,7 @@ function Navbar() {
       let data: {
         status: string
       } = await resp.json()
+      console.log(data)
     } catch (error) {
       console.log(error)
     }
