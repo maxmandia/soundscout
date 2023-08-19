@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { ArtistInterface } from '@/interfaces/ArtistInterface'
-import { prisma } from '@/utils/prisma'
+import { prisma } from '@/config/prisma'
 import checkArtistExists from '@/helpers/check-artist-exists'
+import getArtistTracks from '@/helpers/get-artist-tracks'
+import addArtistTracks from '@/helpers/add-artist-tracks'
 
 interface Data {
   user_id: string
@@ -50,6 +52,10 @@ export async function PUT(req: NextRequest) {
           artist_id: artist_id
         }
       })
+
+      // get the artists tracks
+      let tracks = await getArtistTracks(artist_id)
+      await addArtistTracks(tracks, artist_id)
     }
 
     return NextResponse.json({ status: 'ok' })

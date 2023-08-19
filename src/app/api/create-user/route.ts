@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { headers } from 'next/headers'
 import { Webhook, WebhookRequiredHeaders } from 'svix'
 import { IncomingHttpHeaders } from 'http'
-import { prisma } from '../../../utils/prisma'
+import { prisma } from '../../../config/prisma'
 
 type EventType = 'user.created' | 'user.updated' | '*'
 

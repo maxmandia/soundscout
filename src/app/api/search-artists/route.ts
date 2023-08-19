@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/utils/prisma'
+import { prisma } from '@/config/prisma'
 import { getFollowedArtists } from '@/helpers/get-followed-artists'
+import getSpotToken from '@/helpers/get-spot-token'
 
 export async function GET(req: NextRequest) {
   let search = req.nextUrl.searchParams.get('artist')
@@ -11,10 +12,7 @@ export async function GET(req: NextRequest) {
       throw new Error('Missing search or user_id')
     }
 
-    const spotTokenResponse = await fetch(
-      'http://localhost:3000/api/get-spot-token'
-    )
-    const { access_token } = await spotTokenResponse.json()
+    const access_token = await getSpotToken()
 
     const headers = {
       Authorization: `Bearer ${access_token}`

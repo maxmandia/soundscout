@@ -1,4 +1,4 @@
-import { prisma } from '@/utils/prisma'
+import { prisma } from '@/config/prisma'
 
 export default async function checkArtistExists(artist_id: string) {
   try {

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { ArtistInterface } from '@/interfaces/ArtistInterface'
-import { prisma } from '@/utils/prisma'
+import { prisma } from '@/config/prisma'
 
 interface Data {
   user_id: string

@@ -1,4 +1,4 @@
-import { prisma } from '@/utils/prisma'
+import { prisma } from '@/config/prisma'
 
 export async function getFollowedArtists(user_id: string) {
   try {

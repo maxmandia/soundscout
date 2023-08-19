@@ -13,7 +13,7 @@ model User {
   email          String   @unique
   first_name     String?
   last_name      String?
-  follows       User_Artist[]
+  follows        User_Artist[]
 }
 
 model Artist { 
@@ -23,6 +23,7 @@ model Artist {
    image_url     String?
    genre         String? 
    followers     User_Artist[]
+   tracks        Tracks[]
 }
 
 model User_Artist  {
@@ -31,4 +32,16 @@ model User_Artist  {
   user           User     @relation(fields: [user_id], references: [id])
   artist         Artist   @relation(fields: [artist_id], references: [id])
   @@id([user_id, artist_id])
+}
+
+model Tracks {
+  id             String @id @unique
+  track_name     String
+  release_date   String
+  track_type     String
+  external_url   String
+  track_image    String
+  all_artists    Json[]
+  artist_id      String
+  artist         Artist @relation(fields: [artist_id], references: [id])
 }

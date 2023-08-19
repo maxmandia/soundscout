@@ -1,6 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
-
-export async function GET(req: NextRequest) {
+export default async function getSpotToken(): Promise<string> {
   var myHeaders = new Headers()
   myHeaders.append('Content-Type', 'application/x-www-form-urlencoded')
   myHeaders.append(
@@ -28,8 +26,8 @@ export async function GET(req: NextRequest) {
       ...requestOptions,
       cache: 'no-store'
     })
-    const result = await response.json()
-    return NextResponse.json(result.access_token)
+    const { access_token } = await response.json()
+    return access_token
   } catch (error) {
     throw new Error(error as string)
   }
