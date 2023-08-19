@@ -8,6 +8,28 @@ export async function GET(req: NextRequest) {
     if (!user_id) {
       throw new Error('Missing user id')
     }
+
+    const data = await prisma.user.findUnique({
+      where: {
+        id: user_id
+      },
+      select: {
+        follows: {
+          select: {
+            artist: {
+              select: {
+                tracks: {
+                  orderBy: {
+                    release_date: 'desc'
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    })
+    return NextResponse.json(data?.follows[0].artist.tracks)
   } catch (error) {
     return NextResponse.error()
   }
