@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "export-prisma-types": "sudo cp node_modules/.prisma/client/index.d.ts ../soundscout/src/interfaces/prisma.d.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.23.2",

@@ -113,7 +113,7 @@ function Navbar() {
         <input
           // onBlur={() => setShowModal(false)}
           onFocus={() => setShowModal(true)}
-          className="w-full rounded-[6px] border-[.5px] border-input-txt bg-input-bg pb-3 pl-2 pt-3 text-white"
+          className="w-full rounded-[6px] border-[.5px] border-input-txt bg-input-bg py-2 pl-2 text-white"
           placeholder="Search for artists"
           type="text"
           onChange={(e) => debounceSearch(e.target.value)}

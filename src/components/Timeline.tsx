@@ -1,9 +1,12 @@
 'use client'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useUser } from '@clerk/nextjs'
+import Track from './Track'
+import { Tracks } from '@/interfaces/prisma'
 
 function Timeline() {
   const { user } = useUser()
+  const [tracks, setTracks] = useState<Tracks[] | []>([])
 
   async function getTimelineData() {
     if (!user) {
@@ -15,6 +18,7 @@ function Timeline() {
       )
       let data = await resp.json()
       console.log(data)
+      setTracks(data)
     } catch (error) {
       console.log(error)
     }
@@ -26,7 +30,13 @@ function Timeline() {
     }
   }, [user])
 
-  return <div>Timeline</div>
+  return (
+    <div className="flex-grow overflow-scroll bg-bg-dark px-4">
+      {tracks.map((track) => (
+        <Track key={track.id} track={track} />
+      ))}
+    </div>
+  )
 }
 
 export default Timeline

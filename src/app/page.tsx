@@ -4,7 +4,7 @@ import { useUser } from '@clerk/nextjs'
 
 export default function Home() {
   return (
-    <main className="h-screen bg-bg-dark">
+    <main className="flex h-screen flex-col bg-bg-dark">
       <Navbar />
       <Timeline />
     </main>
