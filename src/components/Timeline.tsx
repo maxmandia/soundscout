@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useUser } from '@clerk/nextjs'
 import { Tracks } from '@/interfaces/prisma'
 import { PlayIcon, OpenInNewWindowIcon, StopIcon } from '@radix-ui/react-icons'
@@ -8,8 +8,9 @@ import Image from 'next/image'
 function Timeline() {
   const { user } = useUser()
   const [tracks, setTracks] = useState<Tracks[] | []>([])
-  let currentAudio: HTMLAudioElement | null = null
-  let isPlaying = false
+  const currentAudio = useRef<HTMLAudioElement | null>(null)
+  const playingTrackId = useRef<string | null>(null)
+  const [triggerRerender, setTriggerRerender] = useState(false)
 
   async function getTimelineData() {
     if (!user) {
@@ -27,29 +28,20 @@ function Timeline() {
     }
   }
 
-  function playSound(preview_url: string) {
-    if (isPlaying && currentAudio?.currentSrc !== preview_url) {
-      currentAudio?.pause()
-      currentAudio = new Audio(preview_url)
-      currentAudio.play()
-      return
+  function playSound(trackId: string, preview_url: string) {
+    if (currentAudio.current) {
+      currentAudio.current.pause()
+      if (playingTrackId.current === trackId) {
+        playingTrackId.current = null
+        setTriggerRerender((prev) => !prev) // Toggle to trigger re-render
+        return
+      }
     }
 
-    if (!isPlaying && currentAudio?.currentSrc !== preview_url) {
-      currentAudio = new Audio(preview_url)
-      isPlaying = true
-      currentAudio.play()
-      return
-    }
-
-    if (isPlaying) {
-      isPlaying = false
-      currentAudio?.pause()
-      return
-    } else {
-      isPlaying = true
-      currentAudio?.play()
-    }
+    currentAudio.current = new Audio(preview_url)
+    currentAudio.current.play()
+    playingTrackId.current = trackId
+    setTriggerRerender((prev) => !prev) // Toggle to trigger re-render
   }
 
   useEffect(() => {
@@ -94,14 +86,14 @@ function Timeline() {
               </div>
             </div>
             <div
-              onClick={() => playSound(track.preview_url)}
+              onClick={() => playSound(track.id, track.preview_url)}
               className="rounded-full bg-[#1DB954] p-2"
             >
-              {/* {audioUrl === track.preview_url ? (
+              {playingTrackId.current === track.id ? (
                 <StopIcon height={18} width={18} />
-              ) : ( */}
-              <PlayIcon />
-              {/* )} */}
+              ) : (
+                <PlayIcon />
+              )}
             </div>
           </div>
         )
