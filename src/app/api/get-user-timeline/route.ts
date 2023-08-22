@@ -31,6 +31,7 @@ export async function GET(req: NextRequest) {
     })
     return NextResponse.json(data?.follows[0].artist.tracks)
   } catch (error) {
+    console.log(error)
     return NextResponse.error()
   }
 }

@@ -30,7 +30,7 @@ model User_Artist  {
   user_id        String
   artist_id      String
   user           User     @relation(fields: [user_id], references: [id])
-  artist         Artist   @relation(fields: [artist_id], references: [id])
+  artist         Artist   @relation(fields: [artist_id], references: [id], onDelete: Cascade)
   @@id([user_id, artist_id])
 }
 
@@ -40,8 +40,9 @@ model Tracks {
   release_date   String
   track_type     String
   external_url   String
+  preview_url    String
   track_image    String
   all_artists    Json[]
   artist_id      String
-  artist         Artist @relation(fields: [artist_id], references: [id])
+  artist         Artist @relation(fields: [artist_id], references: [id], onDelete: Cascade)
 }

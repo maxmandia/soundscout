@@ -47,6 +47,7 @@ export async function POST(req: NextRequest) {
           last_name: last_name as string
         }
       })
+      console.log('user created')
       return NextResponse.json({ message: 'success' })
     } catch (error) {
       console.log('error from db', error)

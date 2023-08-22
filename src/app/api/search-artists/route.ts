@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({
       artists: searchResultJson.artists,
-      userFollowing: userFollowingResult[0].follows
+      userFollowing: userFollowingResult.length === 0 ? [] : userFollowingResult
     })
   } catch (error) {
     console.log(error)
