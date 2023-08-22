@@ -1,6 +1,7 @@
 import { ArtistTracksInterface } from '@/interfaces/ArtistTracksInterface'
 import { prisma } from '@/config/prisma'
 import getSpotToken from '@/helpers/get-spot-token'
+import getTrackInfo from './get-track-info'
 
 export default async function addArtistTracks(
   tracks: ArtistTracksInterface[],
@@ -15,9 +16,11 @@ export default async function addArtistTracks(
     // add all singles
     const formattedSingles = []
     for (const single of singles) {
+      let preview_url = await getTrackInfo(single.id, access_token)
       formattedSingles.push({
         id: single.id,
         track_name: single.name,
+        preview_url: preview_url,
         release_date: single.release_date,
         track_type: single.album_type,
         external_url: single.external_urls.spotify,
@@ -45,10 +48,12 @@ export default async function addArtistTracks(
       const release_date = album.release_date
       const track_image = album.images[0].url
       for (let track of items) {
+        let preview_url = await getTrackInfo(track.id, access_token)
         formattedTracks.push({
           id: track.id,
           track_name: track.name,
           release_date: release_date,
+          preview_url: preview_url,
           track_type: 'single',
           external_url: track.external_urls.spotify,
           track_image: track_image,
