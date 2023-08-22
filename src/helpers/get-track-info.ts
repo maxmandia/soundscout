@@ -6,13 +6,16 @@ export default async function getTrackInfo(
     const headers = {
       Authorization: `Bearer ${access_token}`
     }
-
     let resp = await fetch(`https://api.spotify.com/v1/albums/${track_id}`, {
       headers
     })
     let data = await resp.json()
-    return data.tracks.items[0].preview_url ?? null
+    if (data.tracks.items) {
+      return data.tracks.items[0].preview_url
+    } else {
+      return null
+    }
   } catch (error: any) {
-    throw new Error(error)
+    return null
   }
 }

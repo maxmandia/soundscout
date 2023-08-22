@@ -4124,7 +4124,7 @@ export namespace Prisma {
     release_date: string
     track_type: string
     external_url: string
-    preview_url: string
+    preview_url: string | null
     track_image: string
     all_artists: JsonValue[]
     artist_id: string
@@ -4188,7 +4188,7 @@ export namespace Prisma {
       release_date: string
       track_type: string
       external_url: string
-      preview_url: string
+      preview_url: string | null
       track_image: string
       all_artists: Prisma.JsonValue[]
       artist_id: string
@@ -5216,7 +5216,7 @@ export namespace Prisma {
     release_date?: StringFilter<"Tracks"> | string
     track_type?: StringFilter<"Tracks"> | string
     external_url?: StringFilter<"Tracks"> | string
-    preview_url?: StringFilter<"Tracks"> | string
+    preview_url?: StringNullableFilter<"Tracks"> | string | null
     track_image?: StringFilter<"Tracks"> | string
     all_artists?: JsonNullableListFilter<"Tracks">
     artist_id?: StringFilter<"Tracks"> | string
@@ -5229,7 +5229,7 @@ export namespace Prisma {
     release_date?: SortOrder
     track_type?: SortOrder
     external_url?: SortOrder
-    preview_url?: SortOrder
+    preview_url?: SortOrderInput | SortOrder
     track_image?: SortOrder
     all_artists?: SortOrder
     artist_id?: SortOrder
@@ -5245,7 +5245,7 @@ export namespace Prisma {
     release_date?: StringFilter<"Tracks"> | string
     track_type?: StringFilter<"Tracks"> | string
     external_url?: StringFilter<"Tracks"> | string
-    preview_url?: StringFilter<"Tracks"> | string
+    preview_url?: StringNullableFilter<"Tracks"> | string | null
     track_image?: StringFilter<"Tracks"> | string
     all_artists?: JsonNullableListFilter<"Tracks">
     artist_id?: StringFilter<"Tracks"> | string
@@ -5258,7 +5258,7 @@ export namespace Prisma {
     release_date?: SortOrder
     track_type?: SortOrder
     external_url?: SortOrder
-    preview_url?: SortOrder
+    preview_url?: SortOrderInput | SortOrder
     track_image?: SortOrder
     all_artists?: SortOrder
     artist_id?: SortOrder
@@ -5276,7 +5276,7 @@ export namespace Prisma {
     release_date?: StringWithAggregatesFilter<"Tracks"> | string
     track_type?: StringWithAggregatesFilter<"Tracks"> | string
     external_url?: StringWithAggregatesFilter<"Tracks"> | string
-    preview_url?: StringWithAggregatesFilter<"Tracks"> | string
+    preview_url?: StringNullableWithAggregatesFilter<"Tracks"> | string | null
     track_image?: StringWithAggregatesFilter<"Tracks"> | string
     all_artists?: JsonNullableListFilter<"Tracks">
     artist_id?: StringWithAggregatesFilter<"Tracks"> | string
@@ -5439,7 +5439,7 @@ export namespace Prisma {
     release_date: string
     track_type: string
     external_url: string
-    preview_url: string
+    preview_url?: string | null
     track_image: string
     all_artists?: TracksCreateall_artistsInput | InputJsonValue[]
     artist: ArtistCreateNestedOneWithoutTracksInput
@@ -5451,7 +5451,7 @@ export namespace Prisma {
     release_date: string
     track_type: string
     external_url: string
-    preview_url: string
+    preview_url?: string | null
     track_image: string
     all_artists?: TracksCreateall_artistsInput | InputJsonValue[]
     artist_id: string
@@ -5463,7 +5463,7 @@ export namespace Prisma {
     release_date?: StringFieldUpdateOperationsInput | string
     track_type?: StringFieldUpdateOperationsInput | string
     external_url?: StringFieldUpdateOperationsInput | string
-    preview_url?: StringFieldUpdateOperationsInput | string
+    preview_url?: NullableStringFieldUpdateOperationsInput | string | null
     track_image?: StringFieldUpdateOperationsInput | string
     all_artists?: TracksUpdateall_artistsInput | InputJsonValue[]
     artist?: ArtistUpdateOneRequiredWithoutTracksNestedInput
@@ -5475,7 +5475,7 @@ export namespace Prisma {
     release_date?: StringFieldUpdateOperationsInput | string
     track_type?: StringFieldUpdateOperationsInput | string
     external_url?: StringFieldUpdateOperationsInput | string
-    preview_url?: StringFieldUpdateOperationsInput | string
+    preview_url?: NullableStringFieldUpdateOperationsInput | string | null
     track_image?: StringFieldUpdateOperationsInput | string
     all_artists?: TracksUpdateall_artistsInput | InputJsonValue[]
     artist_id?: StringFieldUpdateOperationsInput | string
@@ -5487,7 +5487,7 @@ export namespace Prisma {
     release_date: string
     track_type: string
     external_url: string
-    preview_url: string
+    preview_url?: string | null
     track_image: string
     all_artists?: TracksCreateall_artistsInput | InputJsonValue[]
     artist_id: string
@@ -5499,7 +5499,7 @@ export namespace Prisma {
     release_date?: StringFieldUpdateOperationsInput | string
     track_type?: StringFieldUpdateOperationsInput | string
     external_url?: StringFieldUpdateOperationsInput | string
-    preview_url?: StringFieldUpdateOperationsInput | string
+    preview_url?: NullableStringFieldUpdateOperationsInput | string | null
     track_image?: StringFieldUpdateOperationsInput | string
     all_artists?: TracksUpdateall_artistsInput | InputJsonValue[]
   }
@@ -5510,7 +5510,7 @@ export namespace Prisma {
     release_date?: StringFieldUpdateOperationsInput | string
     track_type?: StringFieldUpdateOperationsInput | string
     external_url?: StringFieldUpdateOperationsInput | string
-    preview_url?: StringFieldUpdateOperationsInput | string
+    preview_url?: NullableStringFieldUpdateOperationsInput | string | null
     track_image?: StringFieldUpdateOperationsInput | string
     all_artists?: TracksUpdateall_artistsInput | InputJsonValue[]
     artist_id?: StringFieldUpdateOperationsInput | string
@@ -6065,7 +6065,7 @@ export namespace Prisma {
     release_date: string
     track_type: string
     external_url: string
-    preview_url: string
+    preview_url?: string | null
     track_image: string
     all_artists?: TracksCreateall_artistsInput | InputJsonValue[]
   }
@@ -6076,7 +6076,7 @@ export namespace Prisma {
     release_date: string
     track_type: string
     external_url: string
-    preview_url: string
+    preview_url?: string | null
     track_image: string
     all_artists?: TracksCreateall_artistsInput | InputJsonValue[]
   }
@@ -6132,7 +6132,7 @@ export namespace Prisma {
     release_date?: StringFilter<"Tracks"> | string
     track_type?: StringFilter<"Tracks"> | string
     external_url?: StringFilter<"Tracks"> | string
-    preview_url?: StringFilter<"Tracks"> | string
+    preview_url?: StringNullableFilter<"Tracks"> | string | null
     track_image?: StringFilter<"Tracks"> | string
     all_artists?: JsonNullableListFilter<"Tracks">
     artist_id?: StringFilter<"Tracks"> | string
@@ -6312,7 +6312,7 @@ export namespace Prisma {
     release_date: string
     track_type: string
     external_url: string
-    preview_url: string
+    preview_url?: string | null
     track_image: string
     all_artists?: TracksCreateall_artistsInput | InputJsonValue[]
   }
@@ -6335,7 +6335,7 @@ export namespace Prisma {
     release_date?: StringFieldUpdateOperationsInput | string
     track_type?: StringFieldUpdateOperationsInput | string
     external_url?: StringFieldUpdateOperationsInput | string
-    preview_url?: StringFieldUpdateOperationsInput | string
+    preview_url?: NullableStringFieldUpdateOperationsInput | string | null
     track_image?: StringFieldUpdateOperationsInput | string
     all_artists?: TracksUpdateall_artistsInput | InputJsonValue[]
   }
@@ -6346,7 +6346,7 @@ export namespace Prisma {
     release_date?: StringFieldUpdateOperationsInput | string
     track_type?: StringFieldUpdateOperationsInput | string
     external_url?: StringFieldUpdateOperationsInput | string
-    preview_url?: StringFieldUpdateOperationsInput | string
+    preview_url?: NullableStringFieldUpdateOperationsInput | string | null
     track_image?: StringFieldUpdateOperationsInput | string
     all_artists?: TracksUpdateall_artistsInput | InputJsonValue[]
   }
@@ -6357,7 +6357,7 @@ export namespace Prisma {
     release_date?: StringFieldUpdateOperationsInput | string
     track_type?: StringFieldUpdateOperationsInput | string
     external_url?: StringFieldUpdateOperationsInput | string
-    preview_url?: StringFieldUpdateOperationsInput | string
+    preview_url?: NullableStringFieldUpdateOperationsInput | string | null
     track_image?: StringFieldUpdateOperationsInput | string
     all_artists?: TracksUpdateall_artistsInput | InputJsonValue[]
   }

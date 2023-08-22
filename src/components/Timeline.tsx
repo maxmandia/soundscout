@@ -50,7 +50,7 @@ function Timeline() {
     }
   }, [user])
 
-  if (!tracks) {
+  if (tracks.length === 0) {
     return null
   }
 

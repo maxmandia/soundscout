@@ -40,7 +40,7 @@ model Tracks {
   release_date   String
   track_type     String
   external_url   String
-  preview_url    String
+  preview_url    String?
   track_image    String
   all_artists    Json[]
   artist_id      String
