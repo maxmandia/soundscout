@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/config/prisma'
+import { Tracks } from '@prisma/client'
 
 export async function GET(req: NextRequest) {
   const user_id = req.nextUrl.searchParams.get('userId')
@@ -40,8 +41,22 @@ export async function GET(req: NextRequest) {
     if (data?.follows.length === 0) {
       return NextResponse.json([])
     } else {
+      const allTracks: Tracks[] = []
+      data?.follows.forEach((follow) => {
+        follow.artist.tracks.forEach((track) => {
+          allTracks.push(track)
+        })
+      })
+      // sort the tracks from newest to oldest
+      allTracks.sort((a, b) => {
+        return (
+          new Date(b.release_date).getTime() -
+          new Date(a.release_date).getTime()
+        )
+      })
+
       return NextResponse.json({
-        data: data?.follows[0].artist.tracks,
+        data: allTracks,
         next: page + 1
       })
     }
