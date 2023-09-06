@@ -108,17 +108,26 @@ function Navbar() {
   let debounceSearch = debounce(handleSearch(), 200)
 
   return (
-    <div>
-      <nav className="flex items-center justify-between gap-3 px-4 py-8">
-        <input
-          // onBlur={() => setShowModal(false)}
-          onFocus={() => setShowModal(true)}
-          className="w-full rounded-[6px] border-[.5px] border-input-txt bg-input-bg py-2 pl-2 text-white"
-          placeholder="Search for artists"
-          type="text"
-          onChange={(e) => debounceSearch(e.target.value)}
+    <div className="lg:flex lg:items-center lg:justify-end">
+      <nav className="flex w-screen items-center justify-between px-6 py-7">
+        <Image
+          className="hidden lg:block"
+          width={150}
+          height={150}
+          src={'/soundscout.svg'}
+          alt="soundscout logo"
         />
-        {user && <UserButton afterSignOutUrl="/sign-in" />}
+        <div className="flex min-w-[100%] items-center justify-between gap-3 lg:min-w-[28%]">
+          <input
+            // onBlur={() => setShowModal(false)}
+            onFocus={() => setShowModal(true)}
+            className="w-full rounded-[6px] border-[.5px] border-input-txt bg-input-bg py-[5px] pl-2 text-white placeholder:text-[13px]"
+            placeholder="Search for artists"
+            type="text"
+            onChange={(e) => debounceSearch(e.target.value)}
+          />
+          {user && <UserButton afterSignOutUrl="/sign-in" />}
+        </div>
       </nav>
       {searchResults && showModal && (
         <div className="mx-4 flex max-h-[50vh] flex-col gap-8 overflow-scroll rounded-[6px] border-[.5px] border-input-txt bg-input-bg py-4">

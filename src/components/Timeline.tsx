@@ -82,7 +82,7 @@ function Timeline() {
 
   if (data) {
     return (
-      <div className="flex-grow overflow-scroll bg-bg-dark px-4">
+      <div className="flex-grow overflow-scroll bg-bg-dark px-4 lg:m-auto lg:w-[600px]">
         {data.map((songs, index) => {
           if (songs.length === 0) {
             return <p key={index}>Start by following an artist</p>
@@ -129,7 +129,7 @@ function Timeline() {
                   className="rounded-full bg-[#1DB954] p-2"
                 >
                   {playingTrackId.current === track.id ? (
-                    <StopIcon height={18} width={18} />
+                    <StopIcon height={15} width={15} />
                   ) : (
                     <PlayIcon />
                   )}
