@@ -120,7 +120,7 @@ function Navbar() {
         <div className="flex min-w-[100%] flex-col items-center justify-between lg:min-w-[28%]">
           <div className="flex min-w-[100%] items-center gap-3">
             <input
-              // onBlur={() => setShowModal(false)}
+              onBlur={() => setShowModal(false)}
               onFocus={() => setShowModal(true)}
               className="w-full rounded-[6px] border-[.5px] border-input-txt bg-input-bg py-[5px] pl-2 text-white placeholder:text-[13px]"
               placeholder="Search for artists"
