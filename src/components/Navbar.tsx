@@ -117,69 +117,73 @@ function Navbar() {
           src={'/soundscout.svg'}
           alt="soundscout logo"
         />
-        <div className="flex min-w-[100%] items-center justify-between gap-3 lg:min-w-[28%]">
-          <input
-            // onBlur={() => setShowModal(false)}
-            onFocus={() => setShowModal(true)}
-            className="w-full rounded-[6px] border-[.5px] border-input-txt bg-input-bg py-[5px] pl-2 text-white placeholder:text-[13px]"
-            placeholder="Search for artists"
-            type="text"
-            onChange={(e) => debounceSearch(e.target.value)}
-          />
-          {user && <UserButton afterSignOutUrl="/sign-in" />}
+        <div className="flex min-w-[100%] flex-col items-center justify-between lg:min-w-[28%]">
+          <div className="flex min-w-[100%] items-center gap-3">
+            <input
+              // onBlur={() => setShowModal(false)}
+              onFocus={() => setShowModal(true)}
+              className="w-full rounded-[6px] border-[.5px] border-input-txt bg-input-bg py-[5px] pl-2 text-white placeholder:text-[13px]"
+              placeholder="Search for artists"
+              type="text"
+              onChange={(e) => debounceSearch(e.target.value)}
+            />
+            {user && <UserButton afterSignOutUrl="/sign-in" />}
+          </div>
+          {searchResults && showModal && (
+            <div className="absolute top-[90px] mx-10 flex max-h-[50vh] w-[95%] flex-col gap-8 overflow-scroll rounded-[6px] border-[.5px] border-input-txt bg-input-bg py-4 lg:right-[28px] lg:w-[24%]">
+              {searchResults.artists.items.map((artist) => (
+                <div
+                  className="flex items-center justify-between px-3"
+                  key={artist.id}
+                >
+                  <div className="flex items-center gap-3">
+                    {artist.images[0]?.url ? (
+                      <Image
+                        width={50}
+                        height={50}
+                        className="h-[50px] w-[50px] rounded-[100px] bg-slate-600"
+                        src={artist.images[0]?.url}
+                        alt="artist image"
+                      />
+                    ) : (
+                      <div className="flex h-[50px] w-[50px] items-center justify-center rounded-[100px] bg-slate-600">
+                        <p>?</p>
+                      </div>
+                    )}
+                    <div>
+                      <h4 className="text-[17px] font-bold">{artist.name}</h4>
+                      <h6>{artist?.genres?.[0] ?? 'unknown genre'}</h6>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => {
+                      let exists = searchResults.userFollowing.some(
+                        (followedArtist) =>
+                          followedArtist.artist_id === artist.id
+                      )
+                      if (exists) {
+                        followHandler(artist, false)
+                      } else {
+                        followHandler(artist, true)
+                      }
+                    }}
+                    className="w-[100px] rounded-[4px] bg-slate-600 px-5 py-1 text-[14px] font-medium"
+                  >
+                    {searchResults.userFollowing.length === 0
+                      ? 'Follow'
+                      : searchResults.userFollowing.some(
+                          (followedArtist) =>
+                            followedArtist.artist_id === artist.id
+                        )
+                      ? 'Unfollow'
+                      : 'Follow'}
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </nav>
-      {searchResults && showModal && (
-        <div className="mx-4 flex max-h-[50vh] flex-col gap-8 overflow-scroll rounded-[6px] border-[.5px] border-input-txt bg-input-bg py-4">
-          {searchResults.artists.items.map((artist) => (
-            <div
-              className="flex items-center justify-between px-3"
-              key={artist.id}
-            >
-              <div className="flex items-center gap-3">
-                {artist.images[0]?.url ? (
-                  <Image
-                    width={50}
-                    height={50}
-                    className="h-[50px] w-[50px] rounded-[100px] bg-slate-600"
-                    src={artist.images[0]?.url}
-                    alt="artist image"
-                  />
-                ) : (
-                  <div className="flex h-[50px] w-[50px] items-center justify-center rounded-[100px] bg-slate-600">
-                    <p>?</p>
-                  </div>
-                )}
-                <div>
-                  <h4 className="text-[17px] font-bold">{artist.name}</h4>
-                  <h6>{artist?.genres?.[0] ?? 'unknown genre'}</h6>
-                </div>
-              </div>
-              <button
-                onClick={() => {
-                  let exists = searchResults.userFollowing.some(
-                    (followedArtist) => followedArtist.artist_id === artist.id
-                  )
-                  if (exists) {
-                    followHandler(artist, false)
-                  } else {
-                    followHandler(artist, true)
-                  }
-                }}
-                className="w-[100px] rounded-[4px] bg-slate-600 px-5 py-1 text-[14px] font-medium"
-              >
-                {searchResults.userFollowing.length === 0
-                  ? 'Follow'
-                  : searchResults.userFollowing.some(
-                      (followedArtist) => followedArtist.artist_id === artist.id
-                    )
-                  ? 'Unfollow'
-                  : 'Follow'}
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   )
 }
