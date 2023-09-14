@@ -130,10 +130,10 @@ function Navbar() {
             {user && <UserButton afterSignOutUrl="/sign-in" />}
           </div>
           {searchResults && showModal && (
-            <div className="absolute top-[90px] mx-10 flex max-h-[50vh] w-[95%] flex-col gap-8 overflow-scroll rounded-[6px] border-[.5px] border-input-txt bg-input-bg py-4 lg:right-[28px] lg:w-[24%]">
+            <div className="absolute top-[90px] mx-10 flex max-h-[50vh] w-[95%] flex-col overflow-scroll rounded-[6px] border-[.5px] border-input-txt bg-input-bg lg:right-[28px] lg:w-[24%]">
               {searchResults.artists.items.map((artist) => (
                 <div
-                  className="flex items-center justify-between px-3"
+                  className="flex items-center justify-between px-3 py-5"
                   key={artist.id}
                 >
                   <div className="flex items-center gap-3">
@@ -151,8 +151,10 @@ function Navbar() {
                       </div>
                     )}
                     <div>
-                      <h4 className="text-[17px] font-bold">{artist.name}</h4>
-                      <h6>{artist?.genres?.[0] ?? 'unknown genre'}</h6>
+                      <h4 className="text-[14px] font-medium">{artist.name}</h4>
+                      <h6 className="text-[12px]">
+                        {artist?.genres?.[0] ?? 'unknown genre'}
+                      </h6>
                     </div>
                   </div>
                   <button
@@ -167,7 +169,7 @@ function Navbar() {
                         followHandler(artist, true)
                       }
                     }}
-                    className="w-[100px] rounded-[4px] bg-slate-600 px-5 py-1 text-[14px] font-medium"
+                    className="rounded-[4px] bg-slate-600 px-5 py-[6px] text-[10px] font-medium hover:bg-slate-500"
                   >
                     {searchResults.userFollowing.length === 0
                       ? 'Follow'
